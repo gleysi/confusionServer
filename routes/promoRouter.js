@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const cors = require('./cors');
 const Promotions = require('../models/promotions');
 
 const promoRouter = express.Router();
@@ -14,8 +14,8 @@ promoRouter.route('/')
     res.setHeader('Content-Type', 'text/plain');
     next();
 })
-.get((req,res,next) => {
-    Promotions.find({})
+.get(cors.cors, (req,res,next) => {
+    Promotions.find(req.query)
     .then((promos) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
